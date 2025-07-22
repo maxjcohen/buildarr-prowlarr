@@ -26,7 +26,7 @@ import prowlarr
 from buildarr.secrets import SecretsPlugin
 from buildarr.types import NonEmptyStr, Port
 from prowlarr.exceptions import UnauthorizedException
-from pydantic import validator
+from pydantic import field_validator
 
 from .api import api_get, get_initialize_js, prowlarr_api_client
 from .exceptions import ProwlarrAPIError, ProwlarrSecretsUnauthorizedError
@@ -65,7 +65,8 @@ class ProwlarrSecrets(_ProwlarrSecrets):
             url_base=self.url_base,
         )
 
-    @validator("url_base")
+    @field_validator("value")
+    @classmethod
     def validate_url_base(cls, value: Optional[str]) -> Optional[str]:
         return f"/{value.strip('/')}" if value and value.strip("/") else None
 
