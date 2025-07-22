@@ -35,7 +35,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "prowlarr-py<0.5.0,>=0.4.1",
+    "prowlarr-py>=1.1.0",
     "json5>=0.9.7",
 ]
 dynamic = ["version"]
