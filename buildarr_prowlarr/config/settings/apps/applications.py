@@ -152,7 +152,7 @@ class Application(ProwlarrConfigBase):
                 next(
                     (
                         f
-                        for f in cast(List[prowlarr.Field], api_schema.fields)
+                        for f in cast(List[prowlarr.ContractField], api_schema.fields)
                         if f.name == "syncCategories"
                     ),
                 ).select_options,
