@@ -21,6 +21,7 @@ from __future__ import annotations
 
 from logging import getLogger
 from typing import (Any, ClassVar, Dict, Iterable, List, Literal, Mapping,
+                    Optional, Set, Union, cast)
 
 import prowlarr
 
@@ -410,7 +411,9 @@ class RadarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
+    instance_name: Annotated[
         Optional[str], InstanceReference(plugin_name="buildarr_radarr")
+    ] = None
     """
     The name of the Radarr instance within Buildarr, if adding
     a Buildarr-defined Radarr instance to this Prowlarr instance.

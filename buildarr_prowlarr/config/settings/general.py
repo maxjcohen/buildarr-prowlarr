@@ -444,7 +444,9 @@ class AnalyticsGeneralSettings(GeneralSettings):
     Requires a restart of Prowlarr to take effect.
     """
 
-    _remote_map: List[RemoteMapEntry] = [("send_anonymous_usage_data", "analyticsEnabled", {})]
+    _remote_map: ClassVar[List[RemoteMapEntry]] = [
+        ("send_anonymous_usage_data", "analyticsEnabled", {})
+    ]
 
 
 class UpdatesGeneralSettings(GeneralSettings):
