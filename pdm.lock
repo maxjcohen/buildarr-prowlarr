@@ -5,7 +5,7 @@
 groups = ["default", "docs", "lint", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:e5cbf55c7e05ec7fb50f0cffd05bea8c537677918c138891a8c3cc7a82d1a3a4"
+content_hash = "sha256:2d7066f437a43bbf89470b7f7e5367b67f102ce3f1beeafe60a6ab4425821724"
 
 [[metadata.targets]]
 requires_python = ">=3.8"
@@ -594,7 +594,7 @@ name = "packaging"
 version = "25.0"
 requires_python = ">=3.8"
 summary = "Core utilities for Python packages"
-groups = ["docs", "test"]
+groups = ["default", "docs", "test"]
 files = [
     {file = "packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"},
     {file = "packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"},
