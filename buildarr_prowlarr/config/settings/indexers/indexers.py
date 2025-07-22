@@ -646,7 +646,7 @@ class IndexersSettings(ProwlarrConfigBase):
             }
             tag_ids: Dict[str, int] = (
                 {tag.label: tag.id for tag in prowlarr.TagApi(api_client).list_tag()}
-                if any(indexer["tags"] for indexer in indexers)
+                if any(indexer.tags for indexer in indexers)
                 else {}
             )
         definitions: Dict[str, Indexer] = {}
