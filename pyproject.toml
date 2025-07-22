@@ -12,7 +12,7 @@ readme = "README.md"
 authors = [
     {name = "Callum Dickinson",  email = "callum.dickinson.nz@gmail.com"},
 ]
-license = {text = "GPL-3.0-or-later"}
+license = "GPL-3.0-or-later"
 keywords = [
     "buildarr",
     "prowlarr",
@@ -21,7 +21,6 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: Pydantic",
     "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
