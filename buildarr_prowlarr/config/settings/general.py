@@ -19,8 +19,7 @@ Prowlarr plugin general settings configuration.
 from __future__ import annotations
 
 from ipaddress import IPv4Address
-from typing import (Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set,
-                    Tuple, Union)
+from typing import Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set, Tuple, Union
 
 import prowlarr
 

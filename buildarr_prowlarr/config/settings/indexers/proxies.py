@@ -19,8 +19,7 @@ Prowlarr plugin indexer proxy configuration.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import (Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set,
-                    Union)
+from typing import Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set, Union
 
 import prowlarr
 

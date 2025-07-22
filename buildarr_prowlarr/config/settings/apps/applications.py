@@ -19,15 +19,13 @@ Prowlarr plugin application link settings configuration.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import (Any, ClassVar, Dict, Iterable, List, Literal, Mapping,
-                    Optional, Set, Union, cast)
+from typing import Any, ClassVar, Dict, Iterable, List, Literal, Mapping, Optional, Set, Union, cast
 
 import prowlarr
 
 from buildarr.config import RemoteMapEntry
 from buildarr.state import state
-from buildarr.types import (BaseEnum, InstanceReference, LowerCaseNonEmptyStr,
-                            NonEmptyStr, Password)
+from buildarr.types import BaseEnum, InstanceReference, LowerCaseNonEmptyStr, NonEmptyStr, Password
 from packaging.version import Version
 from pydantic import AnyHttpUrl, Field, SecretStr, validator
 from typing_extensions import Annotated, Self
@@ -410,9 +408,7 @@ class RadarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Annotated[
-        Optional[str], InstanceReference(plugin_name="buildarr_radarr")
-    ] = None
+    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="buildarr_radarr")] = None
     """
     The name of the Radarr instance within Buildarr, if adding
     a Buildarr-defined Radarr instance to this Prowlarr instance.
@@ -512,9 +508,7 @@ class SonarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Annotated[
-        Optional[str], InstanceReference(plugin_name="buildarr_sonarr")
-    ] = None
+    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="buildarr_sonarr")] = None
     """
     The name of the Sonarr instance within Buildarr, if adding
     a Buildarr-defined Sonarr instance to this Prowlarr instance.
