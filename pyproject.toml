@@ -2,74 +2,98 @@
 # Python project configuration.
 
 [build-system]
-requires = ["poetry-core>=1.3.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry]
+[project]
 name = "buildarr-prowlarr"
-version = "0.5.3"
 description = "Prowlarr indexer manager plugin for Buildarr"
-authors = ["Callum Dickinson <callum.dickinson.nz@gmail.com>"]
-license = "GPL-3.0-or-later"
-homepage = "https://buildarr.github.io"
-repository = "https://github.com/buildarr/buildarr-prowlarr"
-documentation = "https://buildarr.github.io/plugins/prowlarr"
+readme = "README.md"
+authors = [
+    {name = "Callum Dickinson",  email = "callum.dickinson.nz@gmail.com"},
+]
+license = {text = "GPL-3.0-or-later"}
 keywords = [
     "buildarr",
     "prowlarr",
-    "lazylibrarian",
-    "lidarr",
-    "mylar",
-    "radarr",
-    "readarr",
-    "sonarr",
-    "whisparr",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Framework :: Pydantic",
     "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: System :: Systems Administration",
     "Typing :: Typed",
 ]
-readme = "README.md"
-packages = [{include = "buildarr_prowlarr"}]
+requires-python = ">=3.8"
+dependencies = [
+    "prowlarr-py<0.5.0,>=0.4.1",
+    "json5>=0.9.7",
+]
+dynamic = ["version"]
 
-[tool.poetry.urls]
-"Changes" = "https://buildarr.github.io/plugins/prowlarr/release-notes"
-"Issue Tracker" = "https://github.com/buildarr/buildarr-prowlarr/issues"
+[project.urls]
+Homepage = "https://buildarr.github.io"
+Documentation = "https://buildarr.github.io/plugins/prowlarr"
+Repository = "https://github.com/buildarr/buildarr-prowlarr"
+Issues = "https://github.com/buildarr/buildarr-prowlarr/issues"
+Changelog = "https://buildarr.github.io/plugins/prowlarr/release-notes"
 
-[tool.poetry.plugins."buildarr.plugins"]
-"prowlarr" = "buildarr_prowlarr.plugin:ProwlarrPlugin"
 
-[tool.poetry.dependencies]
-python = ">=3.8,<4.0"
-prowlarr-py = ">=0.4.1,<0.5.0"
-json5 = ">=0.9.7"
-packaging = "*"
-buildarr = ">=0.7.0,<0.8.0"
-buildarr-sonarr = {version = ">=0.6.0", optional = true}
-buildarr-radarr = {version = ">=0.2.0", optional = true}
+[project.entry-points."buildarr.plugins"]
+prowlarr = "buildarr_prowlarr.plugin:ProwlarrPlugin"
 
-[tool.poetry.group.dev.dependencies]
-black = "23.11.0"
-mypy = "1.7.0"
-types-requests = "2.31.0.10"
-mkdocs = "1.5.3"
-mkdocstrings = {extras = ["python"], version = "0.23.0"}
-ruff = "0.1.5"
+[tool.setuptools]
+packages = ["buildarr_prowlarr"]
 
-[tool.poetry.extras]
-sonarr = ["buildarr-sonarr"]
-radarr = ["buildarr-radarr"]
+[tool.setuptools_scm]
+
+[tool.pdm.dev-dependencies]
+docs = [
+    "mkdocs==1.6.0",
+    "mkdocstrings[python]==0.24.3",
+]
+lint = [
+    "mypy==1.10.0",
+    "ruff==0.4.2",
+    "types-requests==2.31.0.20240406",
+]
+test = [
+    "pexpect>=4.9.0",
+    "pytest>=8.0.2",
+    "pytest-cov>=4.1.0",
+    "pytest-httpserver>=1.0.10",
+    "pytest-mock>=3.12.0",
+]
+
+[tool.pdm.scripts]
+lint = {cmd = "ruff check"}
+format = {cmd = "ruff format"}
+test = {cmd = "pytest"}
 
 [tool.ruff]
 fix = true
-output-format = "grouped"
-target-version = "py38"
+indent-width = 4
 line-length = 100
+output-format = "grouped"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
 select = [
     "A",
     "B",
@@ -92,7 +116,14 @@ select = [
     "W",
     "YTT",
 ]
-extend-select = ["COM812", "COM818", "UP009"]
+extend-select = [
+    # COM812 is currently disabled due to a conflict with the Ruff formatter.
+    # https://github.com/astral-sh/ruff/issues/9216
+    # TODO: Decide whether to enable or remove.
+    # "COM812",
+    "COM818",
+    "UP009",
+]
 extend-ignore = [
     "A003",
     "B023",
@@ -105,21 +136,36 @@ extend-ignore = [
     "RUF012",
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 lines-between-types = 1
 combine-as-imports = true
 required-imports = ["from __future__ import annotations"]
 
-[tool.black]
-line_length = 100
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
 
 [tool.mypy]
 python_version = "3.8"
 pretty = true
 
-[[tool.mypy.overrides]]
-module = [
-    "json5.*",
-    "prowlarr.*",
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--color=yes --cov=buildarr_sonarr --cov-config=pyproject.toml --cov-report=html:cover --cov-report=term --cov-report=xml:coverage.xml --junit-xml=rspec.xml -r A --showlocals --verbosity=3"
+filterwarnings = [
+    "error",
 ]
-ignore_missing_imports = true
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+branch = true
+disable_warnings = ["no-data-collected"]
+# omit = []
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    'if __name__ == "__main__":',
+    "raise NotImplementedError",
+]
