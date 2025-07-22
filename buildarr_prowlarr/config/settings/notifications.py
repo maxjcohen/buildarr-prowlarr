@@ -19,14 +19,15 @@ Prowlarr plugin notification connection configuration.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import Any, Dict, List, Literal, Mapping, Optional, Set, Union
+from typing import (Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set,
+                    Union)
 
 import prowlarr
 
 from buildarr.config import RemoteMapEntry
 from buildarr.types import BaseEnum, NonEmptyStr, Password, Port
 from packaging.version import Version
-from pydantic import AnyHttpUrl, ConstrainedInt, Field, NameEmail, SecretStr, validator
+from pydantic import AnyHttpUrl, Field, NameEmail, SecretStr, validator
 from typing_extensions import Annotated, Self
 
 from ...api import prowlarr_api_client
@@ -134,12 +135,10 @@ class PushoverPriority(BaseEnum):
     emergency = 2
 
 
-class PushoverRetry(ConstrainedInt):
-    """
-    Constrained integer type to enforce Pushover retry field limits.
-    """
-
-    ge = 30
+PushoverRetry = Annotated[int, Field(ge=30)]
+"""
+Constrained integer type to enforce Pushover retry field limits.
+"""
 
 
 class WebhookMethod(BaseEnum):
@@ -237,7 +236,7 @@ class Notification(ProwlarrConfigBase):
     Prowlarr tags to associate this notification connection with.
     """
 
-    _implementation: str
+    _implementation: ClassVar[str]
     _remote_map: List[RemoteMapEntry]
 
     @classmethod
@@ -441,7 +440,7 @@ class AppriseNotification(Notification):
     Password for authenticating with Apprise, if required.
     """
 
-    _implementation: str = "Apprise"
+    _implementation: ClassVar[str] = "Apprise"
     _remote_map: List[RemoteMapEntry] = [
         ("base_url", "baseUrl", {"is_field": True}),
         (
@@ -499,7 +498,7 @@ class BoxcarNotification(Notification):
     Access token for authenticating with Boxcar.
     """
 
-    _implementation: str = "Boxcar"
+    _implementation: ClassVar[str] = "Boxcar"
     _remote_map: List[RemoteMapEntry] = [("access_token", "token", {"is_field": True})]
 
 
@@ -518,7 +517,7 @@ class CustomscriptNotification(Notification):
     Path of the script to execute.
     """
 
-    _implementation: str = "CustomScript"
+    _implementation: ClassVar[str] = "CustomScript"
     _remote_map: List[RemoteMapEntry] = [("path", "path", {"is_field": True})]
 
 
@@ -654,7 +653,7 @@ class DiscordNotification(Notification):
     ```
     """
 
-    _implementation: str = "Discord"
+    _implementation: ClassVar[str] = "Discord"
     _remote_map: List[RemoteMapEntry] = [
         ("webhook_url", "webHookUrl", {"is_field": True}),
         (
@@ -749,24 +748,24 @@ class EmailNotification(Notification):
     e.g. `Prowlarr Notifications <prowlarr@example.com>`.
     """
 
-    recipient_addresses: Annotated[List[NameEmail], Field(min_items=1, unique_items=True)]
+    recipient_addresses: Annotated[Set[NameEmail], Field(min_items=1)]
     """
     List of email addresses to directly address the mail to.
 
     At least one address must be provided.
     """
 
-    cc_addresses: Annotated[List[NameEmail], Field(unique_items=True)] = []
+    cc_addresses: Set[NameEmail] = Field(default_factory=set)
     """
     Optional list of email addresses to copy (CC) the mail to.
     """
 
-    bcc_addresses: Annotated[List[NameEmail], Field(unique_items=True)] = []
+    bcc_addresses: Set[NameEmail] = Field(default_factory=set)
     """
     Optional list of email addresses to blind copy (BCC) the mail to.
     """
 
-    _implementation: str = "Email"
+    _implementation: ClassVar[str] = "Email"
 
     @validator("use_encryption", pre=True)
     def validate_use_encryption(cls, value: Union[bool, str]) -> Union[str, EmailUseEncryption]:
@@ -840,7 +839,7 @@ class GotifyNotification(Notification):
     * `high`
     """
 
-    _implementation: str = "Gotify"
+    _implementation: ClassVar[str] = "Gotify"
     _remote_map: List[RemoteMapEntry] = [
         ("server", "server", {"is_field": True}),
         ("app_token", "appToken", {"is_field": True}),
@@ -886,7 +885,7 @@ class JoinNotification(Notification):
     * `emergency`
     """
 
-    _implementation: str = "Join"
+    _implementation: ClassVar[str] = "Join"
     _remote_map: List[RemoteMapEntry] = [
         ("api_key", "apiKey", {"is_field": True}),
         # ("device_ids", "deviceIds", {"is_field": True}),
@@ -938,14 +937,14 @@ class MailgunNotification(Notification):
     The domain from which the mail will be sent.
     """
 
-    recipient_addresses: Annotated[List[NameEmail], Field(min_items=1, unique_items=True)]
+    recipient_addresses: Annotated[Set[NameEmail], Field(min_items=1)]
     """
     The recipient email addresses of the notification mail.
 
     At least one recipient address is required.
     """
 
-    _implementation: str = "Mailgun"
+    _implementation: ClassVar[str] = "Mailgun"
     _remote_map: List[RemoteMapEntry] = [
         ("api_key", "apiKey", {"is_field": True}),
         ("use_eu_endpoint", "useEuEndpoint", {"is_field": True}),
@@ -970,7 +969,7 @@ class NotifiarrNotification(Notification):
     API key to use to authenticate with Notifiarr.
     """
 
-    _implementation: str = "Notifiarr"
+    _implementation: ClassVar[str] = "Notifiarr"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 
@@ -1028,7 +1027,7 @@ class NtfyNotification(Notification):
     Optional link for when the user clicks the notification.
     """
 
-    _implementation: str = "Ntfy"
+    _implementation: ClassVar[str] = "Ntfy"
     _remote_map: List[RemoteMapEntry] = [
         (
             "server_url",
@@ -1092,7 +1091,7 @@ class ProwlNotification(Notification):
     * `emergency`
     """
 
-    _implementation: str = "Prowl"
+    _implementation: ClassVar[str] = "Prowl"
     _remote_map: List[RemoteMapEntry] = [
         ("api_key", "apiKey", {"is_field": True}),
         ("priority", "priority", {"is_field": True}),
@@ -1134,7 +1133,7 @@ class PushbulletNotification(Notification):
     Leave unset, blank or set to `None` to send from yourself.
     """
 
-    _implementation: str = "Pushbullet"
+    _implementation: ClassVar[str] = "Pushbullet"
     _remote_map: List[RemoteMapEntry] = [
         ("api_key", "apiKey", {"is_field": True}),
         ("device_ids", "deviceIds", {"is_field": True}),
@@ -1210,7 +1209,7 @@ class PushoverNotification(Notification):
     Leave unset, blank or set to `None` to use the default.
     """
 
-    _implementation: str = "Pushover"
+    _implementation: ClassVar[str] = "Pushover"
     _remote_map: List[RemoteMapEntry] = [
         ("user_key", "userKey", {"is_field": True}),
         ("api_key", "apiKey", {"is_field": True}),
@@ -1249,14 +1248,14 @@ class SendgridNotification(Notification):
     e.g. `Prowlarr Notifications <prowlarr@example.com>`.
     """
 
-    recipient_addresses: Annotated[List[NameEmail], Field(min_items=1, unique_items=True)]
+    recipient_addresses: Annotated[Set[NameEmail], Field(min_items=1)]
     """
     The recipient email addresses of the notification mail.
 
     At least one recipient address is required.
     """
 
-    _implementation: str = "SendGrid"
+    _implementation: ClassVar[str] = "SendGrid"
     _remote_map: List[RemoteMapEntry] = [
         ("api_key", "apiKey", {"is_field": True}),
         ("from_address", "from", {"is_field": True}),
@@ -1296,7 +1295,7 @@ class SlackNotification(Notification):
     If set, overrides the default channel in the webhook.
     """
 
-    _implementation: str = "Slack"
+    _implementation: ClassVar[str] = "Slack"
     _remote_map: List[RemoteMapEntry] = [
         ("webhook_url", "webHookUrl", {"is_field": True}),
         ("username", "username", {"is_field": True}),
@@ -1340,7 +1339,7 @@ class TelegramNotification(Notification):
     Sends the message silently. Users will receive a notification with no sound.
     """
 
-    _implementation: str = "Telegram"
+    _implementation: ClassVar[str] = "Telegram"
     _remote_map: List[RemoteMapEntry] = [
         ("bot_token", "botToken", {"is_field": True}),
         ("chat_id", "chatId", {"is_field": True}),
@@ -1397,7 +1396,7 @@ class TwitterNotification(Notification):
     Send a direct message instead of a public message.
     """
 
-    _implementation: str = "Twitter"
+    _implementation: ClassVar[str] = "Twitter"
     _remote_map: List[RemoteMapEntry] = [
         ("consumer_key", "consumerKey", {"is_field": True}),
         ("consumer_secret", "consumerSecret", {"is_field": True}),
@@ -1443,7 +1442,7 @@ class WebhookNotification(Notification):
     Webhook API password.
     """
 
-    _implementation: str = "Webhook"
+    _implementation: ClassVar[str] = "Webhook"
     _remote_map: List[RemoteMapEntry] = [
         ("url", "url", {"is_field": True}),
         ("method", "method", {"is_field": True}),

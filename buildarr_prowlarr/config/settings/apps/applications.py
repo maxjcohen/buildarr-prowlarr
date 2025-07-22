@@ -19,13 +19,15 @@ Prowlarr plugin application link settings configuration.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import Any, Dict, Iterable, List, Literal, Mapping, Optional, Set, Union, cast
+from typing import (Any, ClassVar, Dict, Iterable, List, Literal, Mapping,
+                    Optional, Set, Union, cast)
 
 import prowlarr
 
 from buildarr.config import RemoteMapEntry
 from buildarr.state import state
-from buildarr.types import BaseEnum, InstanceName, LowerCaseNonEmptyStr, NonEmptyStr, Password
+from buildarr.types import (BaseEnum, InstanceReference, LowerCaseNonEmptyStr,
+                            NonEmptyStr, Password)
 from packaging.version import Version
 from pydantic import AnyHttpUrl, Field, SecretStr, validator
 from typing_extensions import Annotated, Self
@@ -96,7 +98,7 @@ class Application(ProwlarrConfigBase):
     This is used to associate the application with indexers.
     """
 
-    _implementation: str
+    _implementation: ClassVar[str]
     _remote_map: List[RemoteMapEntry] = []
 
     @classmethod
@@ -334,7 +336,7 @@ class LazylibrarianApplication(Application):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "LazyLibrarian"
+    _implementation: ClassVar[str] = "LazyLibrarian"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 
@@ -364,7 +366,7 @@ class LidarrApplication(ArrApplication):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "Lidarr"
+    _implementation: ClassVar[str] = "Lidarr"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 
@@ -388,7 +390,7 @@ class MylarApplication(Application):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "Mylar"
+    _implementation: ClassVar[str] = "Mylar"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 
@@ -408,7 +410,9 @@ class RadarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Optional[InstanceName] = Field(None, plugin="radarr")
+    instance_name: Annotated[
+        Optional[str], InstanceReference(plugin_name="buildarr_radarr")
+    ] = None
     """
     The name of the Radarr instance within Buildarr, if adding
     a Buildarr-defined Radarr instance to this Prowlarr instance.
@@ -437,7 +441,7 @@ class RadarrApplication(ArrApplication):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "Radarr"
+    _implementation: ClassVar[str] = "Radarr"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
     @validator("api_key")
@@ -488,7 +492,7 @@ class ReadarrApplication(ArrApplication):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "Readarr"
+    _implementation: ClassVar[str] = "Readarr"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 
@@ -508,7 +512,9 @@ class SonarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Optional[InstanceName] = Field(None, plugin="sonarr")
+    instance_name: Annotated[
+        Optional[str], InstanceReference(plugin_name="buildarr_sonarr")
+    ] = None
     """
     The name of the Sonarr instance within Buildarr, if adding
     a Buildarr-defined Sonarr instance to this Prowlarr instance.
@@ -548,7 +554,7 @@ class SonarrApplication(ArrApplication):
     *New in version 0.4.0.*
     """
 
-    _implementation: str = "Sonarr"
+    _implementation: ClassVar[str] = "Sonarr"
 
     @validator("api_key")
     def validate_api_key(
@@ -624,7 +630,7 @@ class WhisparrApplication(ArrApplication):
     Default sync category values for this application type.
     """
 
-    _implementation: str = "Whisparr"
+    _implementation: ClassVar[str] = "Whisparr"
     _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
 
 

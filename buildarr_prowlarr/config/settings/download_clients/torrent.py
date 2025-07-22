@@ -19,7 +19,7 @@ Prowlarr plugin torrent download client definitions.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import Any, Dict, List, Literal, Mapping, Optional, Set
+from typing import Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set
 
 from buildarr.config import RemoteMapEntry
 from buildarr.types import BaseEnum, LowerCaseNonEmptyStr, NonEmptyStr, Password, Port
@@ -212,7 +212,7 @@ class Aria2DownloadClient(TorrentDownloadClient):
     Secret token to use to authenticate with the download client.
     """
 
-    _implementation: str = "Aria2"
+    _implementation: ClassVar[str] = "Aria2"
     _remote_map: List[RemoteMapEntry] = [
         ("host", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
@@ -281,7 +281,7 @@ class DelugeDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "Deluge"
+    _implementation: ClassVar[str] = "Deluge"
 
     @classmethod
     def _get_base_remote_map(
@@ -368,7 +368,7 @@ class DownloadstationTorrentDownloadClient(TorrentDownloadClient):
     Leave blank, set to `null` or undefined to use the default download client location.
     """
 
-    _implementation: str = "TorrentDownloadStation"
+    _implementation: ClassVar[str] = "TorrentDownloadStation"
     _remote_map: List[RemoteMapEntry] = [
         ("host", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
@@ -457,7 +457,7 @@ class FloodDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "Flood"
+    _implementation: ClassVar[str] = "Flood"
 
     @classmethod
     def _get_base_remote_map(
@@ -579,7 +579,7 @@ class FreeboxDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "TorrentFreeboxDownload"
+    _implementation: ClassVar[str] = "TorrentFreeboxDownload"
 
     @classmethod
     def _get_base_remote_map(
@@ -672,7 +672,7 @@ class HadoukenDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "Hadouken"
+    _implementation: ClassVar[str] = "Hadouken"
 
     @classmethod
     def _get_base_remote_map(
@@ -775,7 +775,7 @@ class QbittorrentDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "QBittorrent"
+    _implementation: ClassVar[str] = "QBittorrent"
 
     @classmethod
     def _get_base_remote_map(
@@ -895,7 +895,7 @@ class RtorrentDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "RTorrent"
+    _implementation: ClassVar[str] = "RTorrent"
 
     @classmethod
     def _get_base_remote_map(
@@ -961,7 +961,7 @@ class TorrentBlackholeDownloadClient(TorrentDownloadClient):
     Extension to use for magnet links.
     """
 
-    _implementation: str = "TorrentBlackhole"
+    _implementation: ClassVar[str] = "TorrentBlackhole"
     _remote_map: List[RemoteMapEntry] = [
         ("torrent_folder", "torrentFolder", {"is_field": True}),
         ("save_magnet_files", "saveMagnetFiles", {"is_field": True}),
@@ -1088,7 +1088,7 @@ class TransmissionDownloadClient(TransmissionDownloadClientBase):
     Type value associated with this kind of download client.
     """
 
-    _implementation: str = "Transmission"
+    _implementation: ClassVar[str] = "Transmission"
 
 
 class VuzeDownloadClient(TransmissionDownloadClientBase):
@@ -1101,7 +1101,7 @@ class VuzeDownloadClient(TransmissionDownloadClientBase):
     Type value associated with this kind of download client.
     """
 
-    _implementation: str = "Vuze"
+    _implementation: ClassVar[str] = "Vuze"
 
 
 class UtorrentDownloadClient(TorrentDownloadClient):
@@ -1173,7 +1173,7 @@ class UtorrentDownloadClient(TorrentDownloadClient):
     with the selected Prowlarr categories.
     """
 
-    _implementation: str = "UTorrent"
+    _implementation: ClassVar[str] = "UTorrent"
 
     @classmethod
     def _get_base_remote_map(

@@ -19,7 +19,8 @@ Prowlarr plugin indexer proxy configuration.
 from __future__ import annotations
 
 from logging import getLogger
-from typing import Any, Dict, List, Literal, Mapping, Optional, Set, Union
+from typing import (Any, ClassVar, Dict, List, Literal, Mapping, Optional, Set,
+                    Union)
 
 import prowlarr
 
@@ -71,7 +72,7 @@ class Proxy(ProwlarrConfigBase):
     If unset or empty, all indexers will use this proxy.
     """
 
-    _implementation: str
+    _implementation: ClassVar[str]
     _remote_map: List[RemoteMapEntry]
 
     @classmethod
@@ -193,7 +194,7 @@ class FlaresolverrProxy(Proxy):
     Timeout for requests sent to FlareSolverr, in seconds.
     """
 
-    _implementation: str = "FlareSolverr"
+    _implementation: ClassVar[str] = "FlareSolverr"
     _remote_map: List[RemoteMapEntry] = [
         ("host_url", "host", {"is_field": True}),
         ("request_timeout", "requestTimeout", {"is_field": True}),
@@ -230,7 +231,7 @@ class HttpProxy(Proxy):
     Password used to authenticate with the proxy, if required.
     """
 
-    _implementation: str = "Http"
+    _implementation: ClassVar[str] = "Http"
     _remote_map: List[RemoteMapEntry] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
@@ -293,7 +294,7 @@ class Socks4Proxy(Proxy):
     Password used to authenticate with the proxy, if required.
     """
 
-    _implementation: str = "Socks4"
+    _implementation: ClassVar[str] = "Socks4"
     _remote_map: List[RemoteMapEntry] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
@@ -348,7 +349,7 @@ class Socks5Proxy(Proxy):
     Password used to authenticate with the proxy, if required.
     """
 
-    _implementation: str = "Socks5"
+    _implementation: ClassVar[str] = "Socks5"
     _remote_map: List[RemoteMapEntry] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
