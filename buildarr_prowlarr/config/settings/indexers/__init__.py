@@ -16,7 +16,6 @@
 Prowlarr plugin indexer configuration section.
 """
 
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

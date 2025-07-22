@@ -16,7 +16,6 @@
 Prowlarr plugin download client settings.
 """
 
-
 from __future__ import annotations
 
 import itertools

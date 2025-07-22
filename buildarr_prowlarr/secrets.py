@@ -16,7 +16,6 @@
 Prowlarr plugin secrets file model.
 """
 
-
 from __future__ import annotations
 
 from http import HTTPStatus
@@ -38,13 +37,11 @@ if TYPE_CHECKING:
 
     from .config import ProwlarrConfig
 
-    class _ProwlarrSecrets(SecretsPlugin[ProwlarrConfig]):
-        ...
+    class _ProwlarrSecrets(SecretsPlugin[ProwlarrConfig]): ...
 
 else:
 
-    class _ProwlarrSecrets(SecretsPlugin):
-        ...
+    class _ProwlarrSecrets(SecretsPlugin): ...
 
 
 class ProwlarrSecrets(_ProwlarrSecrets):

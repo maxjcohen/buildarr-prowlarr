@@ -16,7 +16,6 @@
 Prowlarr plugin Usenet download client definitions.
 """
 
-
 from __future__ import annotations
 
 from logging import getLogger

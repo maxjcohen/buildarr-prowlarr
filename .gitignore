@@ -137,4 +137,3 @@ dmypy.json
 # Buildarr local environment and secret files
 buildarr*.yml
 secret*.json
-

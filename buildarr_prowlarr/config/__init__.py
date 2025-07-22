@@ -16,7 +16,6 @@
 Prowlarr plugin configuration.
 """
 
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Optional
@@ -32,13 +31,11 @@ from .settings import ProwlarrSettings
 if TYPE_CHECKING:
     from ..secrets import ProwlarrSecrets
 
-    class _ProwlarrInstanceConfig(ConfigPlugin[ProwlarrSecrets]):
-        ...
+    class _ProwlarrInstanceConfig(ConfigPlugin[ProwlarrSecrets]): ...
 
 else:
 
-    class _ProwlarrInstanceConfig(ConfigPlugin):
-        ...
+    class _ProwlarrInstanceConfig(ConfigPlugin): ...
 
 
 class ProwlarrInstanceConfig(_ProwlarrInstanceConfig):

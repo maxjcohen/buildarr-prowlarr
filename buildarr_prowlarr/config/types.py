@@ -16,7 +16,6 @@
 Prowlarr plugin configuration utility classes and functions.
 """
 
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -26,10 +25,8 @@ from buildarr.config import ConfigBase
 if TYPE_CHECKING:
     from ..secrets import ProwlarrSecrets
 
-    class ProwlarrConfigBase(ConfigBase[ProwlarrSecrets]):
-        ...
+    class ProwlarrConfigBase(ConfigBase[ProwlarrSecrets]): ...
 
 else:
 
-    class ProwlarrConfigBase(ConfigBase):
-        ...
+    class ProwlarrConfigBase(ConfigBase): ...

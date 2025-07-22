@@ -16,7 +16,6 @@
 Prowlarr plugin notification connection configuration.
 """
 
-
 from __future__ import annotations
 
 from logging import getLogger

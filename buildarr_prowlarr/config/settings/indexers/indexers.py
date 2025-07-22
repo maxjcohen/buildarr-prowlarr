@@ -16,7 +16,6 @@
 Prowlarr plugin indexer configuration.
 """
 
-
 from __future__ import annotations
 
 from datetime import datetime

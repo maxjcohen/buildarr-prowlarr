@@ -16,7 +16,6 @@
 Prowlarr plugin exception classes.
 """
 
-
 from __future__ import annotations
 
 from buildarr.exceptions import BuildarrError

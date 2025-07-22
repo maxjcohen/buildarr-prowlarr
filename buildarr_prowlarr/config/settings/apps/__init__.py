@@ -16,7 +16,6 @@
 Prowlarr plugin apps configuration.
 """
 
-
 from __future__ import annotations
 
 from ...types import ProwlarrConfigBase
