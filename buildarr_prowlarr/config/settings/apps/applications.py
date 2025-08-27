@@ -152,7 +152,7 @@ class Application(ProwlarrConfigBase):
                 next(
                     (
                         f
-                        for f in cast(List[prowlarr.Field], api_schema.fields)
+                        for f in cast(List[prowlarr.ContractField], api_schema.fields)
                         if f.name == "syncCategories"
                     ),
                 ).select_options,
@@ -408,7 +408,7 @@ class RadarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="buildarr_radarr")] = None
+    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="radarr")] = None
     """
     The name of the Radarr instance within Buildarr, if adding
     a Buildarr-defined Radarr instance to this Prowlarr instance.
@@ -508,7 +508,7 @@ class SonarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="buildarr_sonarr")] = None
+    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="sonarr")] = None
     """
     The name of the Sonarr instance within Buildarr, if adding
     a Buildarr-defined Sonarr instance to this Prowlarr instance.

@@ -151,7 +151,7 @@ class ProwlarrInstanceConfig(_ProwlarrInstanceConfig):
     Configuration options for Prowlarr itself are set within this structure.
     """
 
-    @field_validator("value")
+    @field_validator("url_base")
     @classmethod
     def validate_url_base(cls, value: Optional[str]) -> Optional[str]:
         return f"/{value.strip('/')}" if value and value.strip("/") else None

@@ -72,7 +72,7 @@ class Proxy(ProwlarrConfigBase):
     """
 
     _implementation: ClassVar[str]
-    _remote_map: List[RemoteMapEntry]
+    _remote_map: ClassVar[List[RemoteMapEntry]]
 
     @classmethod
     def _get_base_remote_map(cls, tag_ids: Mapping[str, int]) -> List[RemoteMapEntry]:
@@ -194,7 +194,7 @@ class FlaresolverrProxy(Proxy):
     """
 
     _implementation: ClassVar[str] = "FlareSolverr"
-    _remote_map: List[RemoteMapEntry] = [
+    _remote_map: ClassVar[List[RemoteMapEntry]] = [
         ("host_url", "host", {"is_field": True}),
         ("request_timeout", "requestTimeout", {"is_field": True}),
     ]
@@ -231,7 +231,7 @@ class HttpProxy(Proxy):
     """
 
     _implementation: ClassVar[str] = "Http"
-    _remote_map: List[RemoteMapEntry] = [
+    _remote_map: ClassVar[List[RemoteMapEntry]] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
         (
@@ -294,7 +294,7 @@ class Socks4Proxy(Proxy):
     """
 
     _implementation: ClassVar[str] = "Socks4"
-    _remote_map: List[RemoteMapEntry] = [
+    _remote_map: ClassVar[List[RemoteMapEntry]] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
         (
@@ -349,7 +349,7 @@ class Socks5Proxy(Proxy):
     """
 
     _implementation: ClassVar[str] = "Socks5"
-    _remote_map: List[RemoteMapEntry] = [
+    _remote_map: ClassVar[List[RemoteMapEntry]] = [
         ("hostname", "host", {"is_field": True}),
         ("port", "port", {"is_field": True}),
         (
@@ -420,9 +420,7 @@ class ProxiesSettings(ProwlarrConfigBase):
             )
         return cls(
             definitions={
-                api_proxy["name"]: PROXY_TYPE_MAP[  # type: ignore[attr-defined]
-                    api_proxy.implementation.lower()
-                ]._from_remote(
+                api_proxy.name: PROXY_TYPE_MAP[api_proxy.implementation.lower()]._from_remote(  # type: ignore[attr-defined]
                     tag_ids=tag_ids,
                     remote_attrs=api_proxy.to_dict(),
                 )
