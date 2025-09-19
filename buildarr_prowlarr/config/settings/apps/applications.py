@@ -348,9 +348,18 @@ class LidarrApplication(ArrApplication):
     Type value associated with this kind of application.
     """
 
-    api_key: Password
+    instance_name: Annotated[Optional[str], InstanceReference(plugin_name="lidarr")] = None
     """
-    API key used to access the target instance.
+    The name of the Lidarr instance within Buildarr, if adding
+    a Buildarr-defined Lidarr instance to this Prowlarr instance.
+    """
+
+    api_key: Optional[SecretStr] = None
+    """
+    API key used to access the target Lidarr instance.
+
+    If a Lidarr instance managed by Buildarr is not referenced using `instance_name`,
+    this attribute is required.
     """
 
     sync_categories: Set[LowerCaseNonEmptyStr] = {
@@ -365,7 +374,36 @@ class LidarrApplication(ArrApplication):
     """
 
     _implementation: ClassVar[str] = "Lidarr"
-    _remote_map: List[RemoteMapEntry] = [("api_key", "apiKey", {"is_field": True})]
+
+    @validator("api_key")
+    def validate_api_key(
+        cls,
+        value: Optional[SecretStr],
+        values: Dict[str, Any],
+    ) -> Optional[SecretStr]:
+        if not values.get("instance_name", None) and not value:
+            raise ValueError("required when 'instance_name' is not defined")
+        return value
+
+    @classmethod
+    def _get_remote_map(
+        cls,
+        secrets: ProwlarrSecrets,
+        api_schema: prowlarr.ApplicationResource,
+        tag_ids: Mapping[str, int],
+    ) -> List[RemoteMapEntry]:
+        return [
+            ("api_key", "apiKey", {"is_field": True}),
+        ]
+
+    def _resolve(self) -> Self:
+        if self.instance_name:
+            resolved = self.copy(deep=True)
+            resolved.api_key = state.instance_secrets["lidarr"][  # type: ignore[attr-defined]
+                self.instance_name
+            ].api_key.get_secret_value()
+            return resolved
+        return self
 
 
 class MylarApplication(Application):
